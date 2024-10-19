@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/arman/PycharmProjects/MLOps/reports/mlruns/874674169950529345/334e06162ee2407da48c725c795b5ee5/artifacts
+end_time: 1729368645590
+entry_point_name: ''
+experiment_id: '874674169950529345'
+lifecycle_stage: active
+run_id: 334e06162ee2407da48c725c795b5ee5
+run_name: Extra Trees_n_e_[50, 100, 200]_max_[5, 10, None]_min_[2, 5]_20241019_1407
+run_uuid: 334e06162ee2407da48c725c795b5ee5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729368444770
+status: 3
+tags: []
+user_id: armi

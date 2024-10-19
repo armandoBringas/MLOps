@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/arman/PycharmProjects/MLOps/reports/mlruns/874674169950529345/c540e453cdc14e978037251faabbe4e1/artifacts
+end_time: 1729369001178
+entry_point_name: ''
+experiment_id: '874674169950529345'
+lifecycle_stage: active
+run_id: c540e453cdc14e978037251faabbe4e1
+run_name: Decision Tree_max_[5, 10, None]_min_[2, 5]_min_[1, 2]_20241019_1416
+run_uuid: c540e453cdc14e978037251faabbe4e1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729369000104
+status: 3
+tags: []
+user_id: armi

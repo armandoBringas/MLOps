@@ -3,12 +3,13 @@ import logging
 import os
 import gin
 import mlflow
-from datetime import datetime
 # from sklearnex import patch_sklearn
 
 from feature_engineering.data_preprocessing import DataPreprocessing
 from modeling.prediction import Predictor
 from modeling.train_model import TrainModel
+
+from mlops.utils.utils import generate_run_name
 
 
 # Function to configure logging to both console and file
@@ -45,12 +46,6 @@ def configure_mlflow(experiment_name, tracking_uri):
 def ensure_directories_exist():
     os.makedirs('models', exist_ok=True)
     os.makedirs('reports', exist_ok=True)
-
-
-def generate_run_name(model_name, hyperparameters):
-    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M")
-    hyperparam_str = "_".join([f"{k[:3]}{v}" for k, v in hyperparameters.items()][:3])  # Limit to first 3 hyperparameters
-    return f"{model_name}_{hyperparam_str}_{timestamp}"
 
 
 @gin.configurable
