@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/arman/PycharmProjects/MLOps/reports/mlruns/874674169950529345/ba776e2b6e1f4e879d18534006f54b51/artifacts
+end_time: 1729369000097
+entry_point_name: ''
+experiment_id: '874674169950529345'
+lifecycle_stage: active
+run_id: ba776e2b6e1f4e879d18534006f54b51
+run_name: Gradient Boosting_n_e_[50, 100, 200]_lea_[0.01, 0.1, 1]_max_[3, 5, 7]_20241019_1411
+run_uuid: ba776e2b6e1f4e879d18534006f54b51
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729368706115
+status: 3
+tags: []
+user_id: armi

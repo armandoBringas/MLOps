@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/arman/PycharmProjects/MLOps/reports/mlruns/874674169950529345/bf807c73b5f844548c4d5446ad300c8c/artifacts
+end_time: 1729368706108
+entry_point_name: ''
+experiment_id: '874674169950529345'
+lifecycle_stage: active
+run_id: bf807c73b5f844548c4d5446ad300c8c
+run_name: AdaBoost_n_e_[50, 100, 200]_lea_[0.01, 0.1, 1]_alg_['SAMME', 'SAMME.R']_20241019_1410
+run_uuid: bf807c73b5f844548c4d5446ad300c8c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729368645597
+status: 3
+tags: []
+user_id: armi

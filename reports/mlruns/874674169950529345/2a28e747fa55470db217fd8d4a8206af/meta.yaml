@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/arman/PycharmProjects/MLOps/reports/mlruns/874674169950529345/2a28e747fa55470db217fd8d4a8206af/artifacts
+end_time: 1729368444752
+entry_point_name: ''
+experiment_id: '874674169950529345'
+lifecycle_stage: active
+run_id: 2a28e747fa55470db217fd8d4a8206af
+run_name: Random Forest_n_e_[50, 100, 200]_max_[5, 10, None]_min_[2, 5]_20241019_1403
+run_uuid: 2a28e747fa55470db217fd8d4a8206af
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729368189228
+status: 3
+tags: []
+user_id: armi

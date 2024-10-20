@@ -23,6 +23,8 @@ from sklearn.metrics import (precision_score, recall_score,
                              precision_recall_curve, make_scorer)
 from sklearn.preprocessing import StandardScaler
 
+from mlops.utils.utils import generate_run_name
+
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -372,19 +374,15 @@ class TrainModel:
 
         results = {}
         for model_name in self.models:
-            with mlflow.start_run(nested=True):
+            hyperparameters = self.hyperparameters[model_name]
+            run_name = generate_run_name(model_name, hyperparameters)
+            with mlflow.start_run(run_name=run_name, nested=True):
                 mlflow.log_param("model_name", model_name)
-                logger.info(f"Training and evaluating model: {model_name}")
+                logger.info(f"Training and evaluating model: {model_name} with run name: {run_name}")
                 trained_model = self.tune_model(model_name)
                 if trained_model:
                     mean_metrics, class_metrics = self.evaluate_model_performance(trained_model)
                     results[model_name] = mean_metrics
-
-        logger.info("\nAll model results:\n")
-        for model_name, metrics in results.items():
-            logger.info(f"{model_name}: Precision: {metrics['precision']:.4f}, Recall: {metrics['recall']:.4f}, "
-                        f"F1 Score: {metrics['f1_score']:.4f}, Accuracy: {metrics['accuracy']:.4f}, "
-                        f"Hamming Loss: {metrics['hamming_loss']:.4f}")
 
         return results
 
@@ -416,37 +414,60 @@ class TrainModel:
             # Find the model with the best F1 score
             best_model_name = max(results, key=lambda x: results[x]['f1_score'])
             logger.info(f"Best model based on F1 Score: {best_model_name}")
-            mlflow.log_param("best_model", best_model_name)
 
-            # Train the best model
-            trained_model = self.train_model(best_model_name)
+            # Get the best hyperparameters
+            best_hyperparameters = self.models[best_model_name].get_params()
 
-            # Save the model (this was missing)
-            model_path = self.save_model(trained_model, best_model_name, models_dir)
-            mlflow.log_artifact(model_path)
+            # Generate a meaningful run name
+            run_name = generate_run_name(best_model_name, best_hyperparameters)
 
-            # Define input and output schema
-            from mlflow.models import ModelSignature
-            from mlflow.types.schema import Schema, ColSpec
-            input_schema = Schema([ColSpec("double", f"feature_{i}") for i in range(self.X.shape[1])])
-            output_schema = Schema([ColSpec("integer", f"label_{i}") for i in range(self.y.shape[1])])
-            signature = ModelSignature(inputs=input_schema, outputs=output_schema)
+            # Start a new run for the best model
+            with mlflow.start_run(run_name=run_name):
+                mlflow.log_param("best_model", best_model_name)
+                mlflow.log_params(best_hyperparameters)
 
-            # Log and register the model
-            mlflow.sklearn.log_model(
-                sk_model=trained_model,
-                artifact_path="model",
-                registered_model_name="AmphibiansClassifier",
-                signature=signature
-            )
-            logger.info(f"Model '{best_model_name}' registered as 'AmphibiansClassifier' in MLflow")
+                # Train the best model
+                trained_model = self.train_model(best_model_name)
 
-            # Save best thresholds
-            thresholds_path = os.path.join(models_dir, f'{best_model_name.lower()}_thresholds.pkl')
-            with open(thresholds_path, 'wb') as f:
-                pickle.dump(self.best_thresholds, f)
-            logger.info(f"Best thresholds saved at {thresholds_path}")
-            mlflow.log_artifact(thresholds_path)
+                # Save the model
+                model_path = self.save_model(trained_model, best_model_name, models_dir)
+                mlflow.log_artifact(model_path)
+
+                # Define input and output schema
+                from mlflow.models import ModelSignature
+                from mlflow.types.schema import Schema, ColSpec
+                input_schema = Schema([ColSpec("double", f"feature_{i}") for i in range(self.X.shape[1])])
+                output_schema = Schema([ColSpec("integer", f"label_{i}") for i in range(self.y.shape[1])])
+                signature = ModelSignature(inputs=input_schema, outputs=output_schema)
+
+                # Log and register the model
+                mlflow.sklearn.log_model(
+                    sk_model=trained_model,
+                    artifact_path="model",
+                    registered_model_name=f"AmphibiansClassifier_{best_model_name}",
+                    signature=signature
+                )
+                logger.info(
+                    f"Model '{best_model_name}' registered as 'AmphibiansClassifier_{best_model_name}' in MLflow")
+
+                # Evaluate model performance
+                mean_metrics, class_metrics = self.evaluate_model_performance(trained_model)
+
+                # Log metrics
+                for metric_name, metric_value in mean_metrics.items():
+                    if metric_name != 'best_thresholds':
+                        mlflow.log_metric(f"mean_{metric_name}", metric_value)
+
+                for label, metrics in class_metrics.items():
+                    for metric_name, metric_value in metrics.items():
+                        mlflow.log_metric(f"{label}_{metric_name}", metric_value)
+
+                # Save best thresholds
+                thresholds_path = os.path.join(models_dir, f'{best_model_name.lower()}_thresholds.pkl')
+                with open(thresholds_path, 'wb') as f:
+                    pickle.dump(self.best_thresholds, f)
+                logger.info(f"Best thresholds saved at {thresholds_path}")
+                mlflow.log_artifact(thresholds_path)
 
             return best_model_name, self
         except Exception as e:

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/arman/PycharmProjects/MLOps/reports/mlruns/874674169950529345/aac7657e67fe4e9395025fb171dcb0a3/artifacts
+end_time: 1729369002920
+entry_point_name: ''
+experiment_id: '874674169950529345'
+lifecycle_stage: active
+run_id: aac7657e67fe4e9395025fb171dcb0a3
+run_name: SVM_C_[0.1, 1, 10]_ker_['linear', 'rbf']_gam_['scale', 'auto']_20241019_1416
+run_uuid: aac7657e67fe4e9395025fb171dcb0a3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729369001185
+status: 3
+tags: []
+user_id: armi
