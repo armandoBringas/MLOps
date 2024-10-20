@@ -8,6 +8,7 @@ services:
       - .:/app  # Mapea el directorio actual al directorio /app del contenedor
     ports:
       - "8888:8888"  # Puedes ajustar este puerto si es necesario
+      - "5000:5000"
     environment:
       - PYTHONUNBUFFERED=1
     command: tail -f /dev/null
