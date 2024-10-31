@@ -35,7 +35,7 @@ This project implements an end-to-end machine learning pipeline for classifying 
 - Ensuring reproducibility of model training and deployment
 - Enabling scalability with tools such as Docker, MLflow, and logging frameworks
 
-### Project Features
+### Project Highlights
 - **Data Ingestion**: Load and preprocess data seamlessly.
 - **Data Preprocessing**: Use `DataPreprocessing` to handle data transformations and feature engineering.
 - **Model Training and Tuning**: Implement custom training pipelines, including hyperparameter tuning and cross-validation.
