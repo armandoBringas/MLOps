@@ -21,9 +21,11 @@ A comprehensive MLOps implementation for amphibian species classification using 
    - [Running the Pipeline](#running-the-pipeline)
 5. [Docker Deployment](#docker-deployment)
 6. [MLflow Tracking](#mlflow-tracking)
-7. [Configuration](#configuration)
-8. [Contributing](#contributing)
-9. [License](#license)
+7. [Data Versioning with DVC](#data-versioning-with-dvc)
+8. [Testing and Governance](#testing-and-governance)
+9. [Configuration](#configuration)
+10. [Contributing](#contributing)
+11. [License](#license)
 
 ---
 
@@ -144,19 +146,86 @@ python mlops/main.py predict --input_data path/to/data
 
 ## Docker Deployment
 
+To build and deploy the project with Docker, follow these steps:
+
+Build the Docker image:
+```bash
+docker build -t amphibians-classification .
+```
+
+Run the container:
+```bash
+docker run -p 5000:5000 amphibians-classification
+```
+
+Alternatively, We can use Docker Compose for a streamlined setup:
+
 Build and run the container:
 ```bash
 docker-compose up --build
 ```
 
+The application will be available on http://localhost:5000.
+Note: When using Mac, is important to turn-off Hand-off and AirDrop, because those tools use the port 5000, so it the code will not be able to run properly
 ---
 
 ## MLflow Tracking
+
+To track experiments using MLflow:
 
 Access MLflow UI for experiment tracking:
 ```bash
 mlflow ui --backend-store-uri file:///path/to/MLOps/mlruns
 ```
+
+The MLflow UI will be available at http://localhost:5000.
+
+All experiments, metrics, and models will be logged under the mlruns/ directory for easy tracking and comparison.
+---
+
+## Data Versioning with DVC
+
+This project uses DVC to version control the datasets, making it easy to track and reproduce results.
+
+Initialize DVC in the repository:
+```bash
+dvc init
+```
+
+Add dataset to DVC:
+```bash
+dvc add data/extracted/amphibians.csv
+```
+
+Commit changes and push to the remote repository:
+```bash
+git add data/extracted/amphibians.csv.dvc .dvc/config
+git commit -m "Add dataset to DVC"
+dvc push
+```
+To retrieve the dataset, use:
+```bash
+dvc pull
+```
+---
+
+## Testing and Governance
+
+This project follows governance and best practices for reproducibility and model reliability.
+Governance Practices
+
+    Code Standards: Follows PEP 8 and includes detailed documentation.
+    Model Governance: Each model is versioned, logged, and evaluated for ethical considerations, reliability, and compliance with standards.
+
+Unit and Integration Testing
+
+    Unit Testing: Each component undergoes unit testing to ensure it functions independently.
+    Integration Testing: Integration tests validate the interaction between modules in the ML pipeline.
+
+Ensuring Reproducibility
+
+    Data Versioning: DVC ensures reproducibility of dataset versions.
+    Pipeline Automation: Automated ML pipelines ensure each stage is consistently reproducible across environments.
 ---
 
 ## Configuration
