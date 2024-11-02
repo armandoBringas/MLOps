@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-from dataset.data_loader import DataLoader
+from mlops.dataset.data_loader import DataLoader
 import logging
 
 # Initialize logging for the class
