@@ -83,8 +83,15 @@ class TrainModel:
         self.X_test = scaler.transform(self.X_test)
 
         # Ensure y_train and y_test are numpy arrays of integers
-        self.y_train = self.y_train_df.astype(int).to_numpy()
-        self.y_test = self.y_test_df.astype(int).to_numpy()
+        # self.y_train = self.y_train_df.astype(int).to_numpy()
+        # self.y_test = self.y_test_df.astype(int).to_numpy()
+
+        if isinstance(self.y_train_df, np.ndarray):
+            self.y_train = self.y_train_df.astype(int)
+            self.y_test = self.y_test_df.astype(int)
+        else:
+            self.y_train = self.y_train_df.astype(int).to_numpy()
+            self.y_test = self.y_test_df.astype(int).to_numpy()
 
     def tune_model(self, model_name):
         """
