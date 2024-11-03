@@ -9,11 +9,11 @@ COPY requirements.txt .
 
 # Instalar las dependencias y manejar excepciones
 RUN pip install --no-cache-dir -r requirements.txt || \
-    { echo "Algunas dependencias no se pudieron instalar. Revise error_log.txt para detalles." && \
-      pip freeze > error_log.txt; exit 0; }
+    (echo "Algunas dependencias no se pudieron instalar, revisa error_log.txt para detalles." && \
+    pip freeze > error_log.txt)
 
 # Copiar todo el código fuente al contenedor
 COPY . .
 
-# Comando por defecto para ejecutar la aplicación
-CMD ["python3"]
+# Comando por defecto para ejecutar la aplicación, como main.py
+CMD ["python3", "main.py"]
