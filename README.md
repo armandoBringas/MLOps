@@ -164,8 +164,15 @@ Build and run the container:
 ```bash
 docker-compose up --build
 ```
+Both methods will take some time to install all the necessary libraries. Once the installation is complete, use the following commands to access the container and start the main script with the specified Gin configuration:
 
-The application will be available on http://localhost:5000.
+```bash
+docker exec -it mlops-mlops_service-1 /bin/bash
+PYTHONPATH=$(pwd) python mlops/main.py -c "mlops/config/config.gin"
+```
+Note: You can adjust the ports as needed; some antivirus systems may use port 5000.
+
+The application will be available on http://localhost:5002.
 Note: When using Mac, is important to turn-off Hand-off and AirDrop, because those tools use the port 5000, so it the code will not be able to run properly
 ---
 

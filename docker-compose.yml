@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   mlops_service:
     build:
@@ -7,8 +7,9 @@ services:
     volumes:
       - .:/app  # Mapea el directorio actual al directorio /app del contenedor
     ports:
-      - "8888:8888"  # Puedes ajustar este puerto si es necesario
-      - "5000:5000"
+      - "8888:8888"  # Puerto para Jupyter o cualquier otro servicio expuesto
+      - "5002:5002"  # Puerto para tu aplicación Flask u otra API
     environment:
       - PYTHONUNBUFFERED=1
-    command: tail -f /dev/null
+    command: >
+      bash -c "cat requirements.txt | xargs -n 1 pip install --no-cache-dir || echo 'Some dependencies failed to install.' && tail -f /dev/null"
